@@ -27,9 +27,9 @@ board.on('ready', function() {
   var temperature = new five.Thermometer({
     pin: "A0",
     freq: 100,
-    toCelsius: function(raw) { // optional
-      return (raw - sensivity);
-    }
+    // toCelsius: function(raw) { // optional
+    //   return (raw - sensivity);
+    // }
   });
 
     this.repl.inject({
