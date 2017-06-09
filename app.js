@@ -41,7 +41,7 @@ board.on('ready', function() {
 temperature.on("change", function() {
     console.log(this.celsius + "°C", this.fahrenheit + "°F");
     console.log(this.celsius);
-  if( this.celsius > 17 ){
+  if( this.celsius > 600 ){
     console.log(true);
     led.on();
   }else{
