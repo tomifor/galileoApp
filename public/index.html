@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>LCD</title>
+<link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+           <h1>Lightning</h1>
+        </header>
+
+        <nav>
+          <p>Select the parameters desired for the proper working of the system according to your needs.</p>
+        </nav>
+
+        <button type="button" id="operateButton" value = "true">Start</button>
+        <form id="appFormId">
+
+            <div class="article-containter">
+            <article>
+              <h1>Photoresistor</h1>
+               Light intensity:  <input type="range" min="0" max="1023" step="1" value="0" id="light">
+            </article>
+            <article>
+              <h1>Sound Sensor</h1>
+               Decibels:  <input type="range" min="0" max="1023" step="1" value="0" id="sound">
+            </article>
+            <article>
+              <h1>Time</h1>
+               Starting Hour:  <input type="number" min="0" max="23.5" step="0.5" value="0" id="startHour">
+               Finishing Hour:  <input type="number" min="0" max="23.5" step="0.5" value="0" id="finishHour">   <!-- aca se podria poner que el valor del FH sea por default igual a SH +0.5 -->
+            </article>
+
+            <article>
+                <button type="submit">Submit</button>
+            </article>
+            </div>
+
+        </form>
+
+        <footer>
+            <p>Tomas Fernandez Martinez & Nicolas Velazquez</p>
+        </footer>
+    </div>
+
+<script src="./jquery-3.2.0.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="./client.js"></script>
+
+</body>
+</html>
