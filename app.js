@@ -19,51 +19,40 @@ board.on('ready', function() {
   console.log('Setting up board');
 
   var state = {
-    light: 1, sound: 1, startHour: 0, finishHour: 0
+    temperature: 1, startHour: 0, finishHour: 0
   };
 
-  var led = new five.Led(11);
 
-  var operate = false;
-
-  var micFlag = false;
-  var photoFlag = false;
-  var timeFlag = false;
-
-  console.log('Setting up mic');
-
-  var mic = new five.Sensor({pin: "A0", freq: 2000});
-  mic.on("data", function() {
-      if(operate){
-          if(this.value < state.sound && !photoFlag){
-              led.off();
-              console.log('Led is off because: ' + this.value + ' < ' + state.sound);
-          }
-          else{
-              led.on();
-              console.log('Led is off because: ' + this.value + ' < ' + state.sound);
-      }
+  var led = new five.Led(13);
+  var temperature = new five.Thermometer({
+    pin: "A0",
+    freq: 100,
+    toCelsius: function(raw) { // optional
+      return (raw - sensivity);
     }
   });
 
-  console.log('mic setup correctly');
+    this.repl.inject({
+    on: function(){
+      led.on();
+    }
+    });
 
-  console.log('Setting up photoresistor');
-
-  var photoresistor = new five.Sensor({pin: "A2", freq: 2000 });
-  photoresistor.on("data", function() {
-      if(operate){
-          if(this.value < state.light && !micFlag){
-              led.off();
-              console.log('Led is off because: ' + this.value + ' < ' + state.light);
-          }else{
-              led.on();
-              console.log('Led is on because: ' + this.value + ' < ' + state.light);
-          }
-      }
+temperature.on("change", function() {
+    console.log(this.celsius + "°C", this.fahrenheit + "°F");
+    console.log(this.celsius);
+  if( this.celsius > 17 ){
+    console.log(true);
+    led.on();
+  }else{
+    led.off();
+  }
+  
   });
 
-  console.log('photoresistor setup correctly');
+});
+
+  console.log('temperature sensor setup correctly');
 
   var checkTime = function(){
       var timeFlag = checkDate(state);
@@ -71,7 +60,6 @@ board.on('ready', function() {
 
   setInterval(checkTime, 60 * 1000 * 2);
 
-  console.log('Setting up socket');
 
   io.on('connection', function(client) {
     client.on('join', function(handshake) {
@@ -79,12 +67,11 @@ board.on('ready', function() {
     });
 
     client.on('update', function(data) {
-      state.light = data.device === 'light' ? data.value : state.light;
-      state.sound = data.device === 'sound' ? data.value : state.sound;
+      state.temperature = data.device === 'temperature' ? data.value : state.temperature;
       state.startHour = data.device === 'startHour' ? data.value : state.startHour;
       state.finishHour = data.device === 'finishHour' ? data.value : state.finishHour;
 
-      printParameters(state.light, state.sound);
+      printParameters(state.temperature);
 
       client.emit('update', data);
       client.broadcast.emit('update', data);
@@ -100,11 +87,10 @@ board.on('ready', function() {
 
   console.log('Socket setup correctly');
   console.log('Board setup correctly');
-});
 
-function printParameters(light, sound){
-    console.log('Light: ' + light);
-    console.log('Sound: ' + sound);
+
+function printParameters(temperature){
+    console.log('Temperature: ' + temperature);
 }
 
 function checkDate(state){

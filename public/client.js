@@ -2,8 +2,7 @@
 
 (function() {
     var socket = io.connect(window.location.hostname + ':' + 3000);
-    var light = document.getElementById('light');
-    var sound = document.getElementById('sound');
+    var light = document.getElementById('temperature');
     var startHour = document.getElementById('startHour');
     var finishHour = document.getElementById('finishHour');
 
@@ -42,8 +41,7 @@
     // blue.addEventListener('change', emitValue.bind(null, 'blue'));
     // green.addEventListener('change', emitValue.bind(null, 'green'));
 
-    light.addEventListener('change', emitValue.bind(null, 'light'));
-    sound.addEventListener('change', emitValue.bind(null, 'sound'));
+    temperature.addEventListener('change', emitValue.bind(null, 'temperature'));
     startHour.addEventListener('change', emitValue.bind(null, 'startHour'));
     finishHour.addEventListener('change', emitValue.bind(null, 'finishHour'));
 
