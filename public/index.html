@@ -35,10 +35,10 @@
                 <p>Temperatura</p>
 
                  <p>MAX: <output name="range" id="temperatureMax">24</output> </p>
-                 <input type="range" min="24" max="40" step="1" value="15" id="temperature-max" onchange="temperatureMax.value = value">
+                 <input type="range" min="0" max="100" step="1" value="15" id="temperature-max" onchange="temperatureMax.value = value">
 
                  <p>MIN: <output name="range" id="temperatureMin">15</output> </p>
-                 <input type="range" min="15" max="24" step="1" value="0" id="temperature-min" onchange="temperatureMin.value = value">
+                 <input type="range" min="0" max="100" step="1" value="0" id="temperature-min" onchange="temperatureMin.value = value">
 
                  <button type="submit" class="btn btn-success btn-submit">Aplicar</button>
              </form>
@@ -50,10 +50,10 @@
               <form id="humidityForm">
                 <p>Humedad</p>
                  <p>MAX:<output name="range" id="humidityMax">25</output></p>
-                 <input type="range" min="50" max="100" step="1" value="0" id="humidity-max" onchange="humidityMax.value = value">
+                 <input type="range" min="0" max="100" step="1" value="0" id="humidity-max" onchange="humidityMax.value = value">
 
                  <p>MIN: <output name="range" id="humidityMin">25</output> </p>
-                 <input type="range" min="0" max="50" step="1" value="0" id="humidity-min" onchange="humidityMin.value = value">
+                 <input type="range" min="0" max="100" step="1" value="0" id="humidity-min" onchange="humidityMin.value = value">
                  <button type="submit" class="btn btn-success btn-submit">Aplicar</button>
               </form>
             </div>

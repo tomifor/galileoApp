@@ -81,7 +81,7 @@ board.on('ready', function() {
      if(humidity > humidityMax ){
       ledWater.on();
     }else if(humidity < humidityMin){
-      ledCold.off
+      ledWater.off
     }
   });
 
