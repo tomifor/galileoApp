@@ -52,6 +52,7 @@ board.on('ready', function() {
 
   temperature.on("change", function() {
     displayTemperature(this.celsius);
+    console.log('maxTemp:' + maxTemp);
     if(this.celsius < tempMin ){
       ledHot.on();
     }else if(this.celsius > tempMax){
@@ -81,7 +82,6 @@ board.on('ready', function() {
 
     io.on('connection', function(client) {
       socketClient = client;
-      console.log(socketClient);
       client.on('join', function(handshake) {
         console.log(handshake);
       });
