@@ -9,6 +9,7 @@ var Galileo = require("galileo-io");
 var board = new five.Board({
      io: new Galileo()
 });
+
 var ledHot = new five.Led(8);
 var ledCold = new five.Led(12);
 var ledWater = new five.Led(13);
@@ -21,6 +22,8 @@ var temperature = new five.Thermometer({
   pin: "A0",
   freq: 100,
 });
+
+var humidity = new five.Sensor("A0");
 
 var state = {
   temperature: 1
@@ -51,6 +54,10 @@ board.on('ready', function() {
     }else{
       ledHot.off();
     }
+  });
+
+  humidity.on("change", function() {
+    displayHumidityInLCD(sensor.scaleTo([0, 80]));
   });
 
 });
@@ -100,7 +107,7 @@ function displayTemperatureInLCD(temperature) {
 }
 
 function displayHumidityInLCD(humidity) {
-  lcd.home();
+  lcd.cursor(1, 0);
   lcd.print('Hum: ' + humidity);
 }
 
