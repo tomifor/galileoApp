@@ -37,7 +37,7 @@ board.on('ready', function() {
 
     this.repl.inject({
     on: function(){
-      led.on();
+      ledHot.on();
     }
     });
 
@@ -47,9 +47,9 @@ board.on('ready', function() {
       console.log(this.celsius);
     if( this.celsius < 200 ){
       console.log(true);
-      led.on();
+      ledHot.on();
     }else{
-      led.off();
+      ledHot.off();
     }
   });
 
@@ -81,7 +81,7 @@ board.on('ready', function() {
     client.on('operate', function(data){
         console.log("Operate was emitted");
         operate = Boolean(data.value);
-        if(operate === false) led.off();
+        if(operate === false) ledHot.off();
     });
 
   });
