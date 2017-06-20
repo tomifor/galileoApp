@@ -17,22 +17,19 @@
 
   <script type="text/javascript">
     var socket = io();
-
-    
- 
- //update corresponding row with sensor value
- socket.on('Temp', function (data) {
-  console.log(data);
-  console.log(1);
- });
-
-
-
+  //update corresponding row with sensor value
+   socket.on('Temp', function (data) {
+    console.log(data);
+    console.log(1);
+    document.getElementById("demo").innerHTML = data;
+    document.getElementById("demo").innerHTML = 5 + 6;
+   });
   </script>
 
+<h1>HEllo world</h1>
 
 <!-- information about temperature and humiture -->
-  <div class="container">
+  <!-- <div class="container">
     <div class="row information-row">
         <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12 information">
           <p>Temperatura: 20°C</p>
@@ -117,7 +114,7 @@
     </div>
 
 
-    </div>
+    </div> -->
 
     <script src="./jquery-3.2.0.min.js"></script>
     <script src="./bootstrap.min.js"></script>
