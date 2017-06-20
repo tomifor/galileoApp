@@ -9,6 +9,23 @@ var Galileo = require("galileo-io");
 var board = new five.Board({
      io: new Galileo()
 });
+var ledHot = new five.Led(8);
+var ledCold = new five.Led(12);
+var ledWater = new five.Led(13);
+
+var lcd = new five.LCD({
+      controller: "PCF8574"
+});
+
+var temperature = new five.Thermometer({
+  pin: "A0",
+  freq: 100,
+});
+
+var state = {
+  temperature: 1
+};
+
 
 app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res, next) {
@@ -18,36 +35,22 @@ app.get('/', function(req, res, next) {
 board.on('ready', function() {
   console.log('Setting up board');
 
-  var state = {
-    temperature: 1, startHour: 0, finishHour: 0
-  };
-
-
-  var led = new five.Led(13);
-  var temperature = new five.Thermometer({
-    pin: "A0",
-    freq: 100,
-    // toCelsius: function(raw) { // optional
-    //   return (raw - sensivity);
-    // }
-  });
-
     this.repl.inject({
     on: function(){
       led.on();
     }
     });
 
-temperature.on("change", function() {
-    console.log(this.celsius + "°C", this.fahrenheit + "°F");
-    console.log(this.celsius);
-  if( this.celsius > 600 ){
-    console.log(true);
-    led.on();
-  }else{
-    led.off();
-  }
-  
+  temperature.on("change", function() {
+      displayTemperatureInLCD(this.celsius);
+      console.log(this.celsius + "°C", this.fahrenheit + "°F");
+      console.log(this.celsius);
+    if( this.celsius < 200 ){
+      console.log(true);
+      led.on();
+    }else{
+      led.off();
+    }
   });
 
 });
@@ -68,9 +71,7 @@ temperature.on("change", function() {
 
     client.on('update', function(data) {
       state.temperature = data.device === 'temperature' ? data.value : state.temperature;
-      state.startHour = data.device === 'startHour' ? data.value : state.startHour;
-      state.finishHour = data.device === 'finishHour' ? data.value : state.finishHour;
-
+      
       printParameters(state.temperature);
 
       client.emit('update', data);
@@ -91,6 +92,16 @@ temperature.on("change", function() {
 
 function printParameters(temperature){
     console.log('Temperature: ' + temperature);
+}
+
+function displayTemperatureInLCD(temperature) {
+  lcd.home();
+  lcd.print('Temp: ' + temperature + '°C');
+}
+
+function displayHumidityInLCD(humidity) {
+  lcd.home();
+  lcd.print('Hum: ' + humidity);
 }
 
 function checkDate(state){
