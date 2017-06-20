@@ -21,25 +21,31 @@ var lcd = new five.LCD({
 var temperature = new five.Thermometer({
   pin: "A0",
   freq: 100,
+  toCelsius: function(raw) {
+    return raw - 240;
+  }
 });
 
-var humidity = new five.Sensor("A0");
+var humiditySensor = new five.Sensor("A0");
 
-var state = {
-  temperature: 1
-};
+var socketClient = null;
+var tempMax = 100;
+var tempMin = 0;
+var humidityMax = 100;
+var humidityMin = 0;
+var humidity = 0;
 
 
-var interval = 3000; //enter the time between sensor queries here (in milliseconds)
+// var interval = 3000; //enter the time between sensor queries here (in milliseconds)
  
-//when a client connects
-io.sockets.on('connection', function (socket) {
-    //initiate interval timer
-    console.log("Connected");
-    setInterval(function () {
-      socket.emit('Temp', temperature.celsius);
-    }, interval);
-});
+// //when a client connects
+// io.sockets.on('connection', function (socket) {
+//     //initiate interval timer
+//     console.log("Connected");
+//     setInterval(function () {
+//       socket.emit('Temp', temperature.celsius);
+//     }, interval);
+// });
 
 app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res, next) {
@@ -56,24 +62,55 @@ board.on('ready', function() {
     });
 
   temperature.on("change", function() {
-      displayTemperatureInLCD(this.celsius);
-      //console.log(this.celsius + "°C", this.fahrenheit + "°F");
-    if( this.celsius < 200 ){
-      console.log(true);
+    displayTemperature(this.celsius);
+    if(this.celsius < tempMin ){
       ledHot.on();
-    }else{
+    }else if(this.celsius > tempMax){
+      ledCold.on();
+    }else {
+      ledCold.off();
       ledHot.off();
     }
   });
 
-  humidity.on("change", function() {
-    displayHumidityInLCD(humidity.scaleTo([0, 100]));
+  humiditySensor.on("change", function() {
+    humidity = humiditySensor.scaleTo([0, 100]);
+    displayHumidityInLCD(humidity);
+     if(humidity > humidityMax ){
+      ledWater.on();
+    }else if(humidity < humidityMin){
+      ledCold.off
+    }
   });
+
+  setClientActions();
 
 });
 
-  console.log('temperature sensor setup correctly');
+  function setClientActions(){
+    console.log('Setting up socket');
 
+    io.on('connection', function(client) {
+        socketClient = client;
+    });
+    client.on('update', function(data) {
+        tempMax = data.device === 'tempMax' ? data.value : tempMax;
+        tempMin = data.device === 'tempMin' ? data.value : tempMin;
+        humidityMax = data.device === 'humidityMax' ? data.value : humidityMax;
+        tempMin = data.device === 'humidityMin' ? data.value : humidityMin;
+
+        client.emit('update', data);
+        client.broadcast.emit('update', data);
+    });
+
+    client.on('saveValues', function(){
+        saveParameteres();
+    });
+
+    client.on('defaultValues', function(){
+        setSavedParameters();
+    });
+  }
 
   // io.on('connection', function(client) {
   //   client.on('join', function(handshake) {
@@ -107,9 +144,7 @@ function printParameters(temperature){
 
 function displayTemperature (temperature) {
   displayTemperatureInLCD(temperature);
-  io.on('Temp', function(tmp) {
-    io.sockets.emit(tmp);
-  });
+  socketClient.emit('Temp', temperature);
 }
 
 function displayTemperatureInLCD(temperature) {
@@ -120,6 +155,28 @@ function displayTemperatureInLCD(temperature) {
 function displayHumidityInLCD(humidity) {
   lcd.cursor(1, 0);
   lcd.print('Hum: ' + humidity);
+}
+
+function setSavedParameters(){
+    var file = './resources/data.json';
+    var jsonParameters = jsonfile.readFileSync(file);
+
+    tempMax = jsonParameters.tempMax;
+    tempMin = jsonParameters.tempMin;
+    humidityMax = jsonParameters.humidityMax;
+    humidityMin = jsonParameters.humidityMin;
+    
+    socketClient.emit('setSavedParameters', jsonParameters);
+}
+
+function saveParameteres(){
+
+    var file = './resources/data.json';
+    var obj = {tempMax: tempMax, tempMin: tempMin, humidityMax: humidityMax, humidityMin: humidityMin};
+
+    jsonfile.writeFileSync(file, obj, function (err) {
+      console.error(err);
+    });
 }
 
 

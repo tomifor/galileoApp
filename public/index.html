@@ -15,23 +15,8 @@
     </div>
   </nav>
 
-  <script type="text/javascript">
-    var socket = io();
-  //update corresponding row with sensor value
-   socket.on('Temp', function (data) {
-    console.log(data);
-    console.log(1);
-    document.getElementById("demo").innerHTML = data;
-    document.getElementById("demo").innerHTML = 5 + 6;
-   });
-
-   document.getElementById("demo").innerHTML = 5 + 69;
-  </script>
-
-<h1>HEllo world</h1>
-
 <!-- information about temperature and humiture -->
-  <!-- <div class="container">
+  <div class="container">
     <div class="row information-row">
         <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12 information">
           <p>Temperatura: 20°C</p>
@@ -65,10 +50,10 @@
               <form id="humidityForm">
                 <p>Humedad</p>
                  <p>MAX:<output name="range" id="humidityMax">25</output></p>
-                 <input type="range" min="0" max="1023" step="1" value="0" id="humidity-max" onchange="humidityMax.value = value">
+                 <input type="range" min="50" max="100" step="1" value="0" id="humidity-max" onchange="humidityMax.value = value">
 
                  <p>MIN: <output name="range" id="humidityMin">25</output> </p>
-                 <input type="range" min="0" max="1023" step="1" value="0" id="humidity-min" onchange="humidityMin.value = value">
+                 <input type="range" min="0" max="50" step="1" value="0" id="humidity-min" onchange="humidityMin.value = value">
                  <button type="submit" class="btn btn-success btn-submit">Aplicar</button>
               </form>
             </div>
@@ -116,7 +101,7 @@
     </div>
 
 
-    </div> -->
+    </div>
 
     <script src="./jquery-3.2.0.min.js"></script>
     <script src="./bootstrap.min.js"></script>

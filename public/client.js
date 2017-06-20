@@ -1,64 +1,70 @@
-// client.js
+var socket;
+var light;
+var tempMax;
+var tempMin;
+var humidityMax;
+var humidityMin;
 
-(function() {
-    var socket = io.connect(window.location.hostname + ':' + 3000);
-    var light = document.getElementById('temperature');
-    var startHour = document.getElementById('startHour');
-    var finishHour = document.getElementById('finishHour');
 
-    var button = document.getElementById('operateButton');
+$(document).ready(function(){
+    socket = io.connect(window.location.hostname + ':' + 3000);
 
-    // function emitValue(color, e) {
-    //     socket.emit('rgb', {
-    //         color: color,
-    //         value: e.target.value
-    //     });
-    // }
+    prepareDOMVariables();
+    //
+    addEventListeners();
+    //
+    setSocketActions();
+});
 
-    function emitValue(device, e) {
-        alert('emitting value');
-        socket.emit('update', {
-            device: device,
-            value: e.target.value
-        });
-    }
+function prepareDOMVariables(){
+    tempMax = document.getElementById('temperatureMax');
+    tempMin = document.getElementById('temperatureMin');
+    humidityMax = document.getElementById('humidityMax');
+    humidityMin = document.getElementById('humidityMin');
+}
 
-    function start(){
-        var operate = button.value;
-        socket.emit('operate',{
-            value: operate
-        });
-        if(button.value === 'false'){
-            button.innerHTML = 'Stop';
-            button.value = 'false';
-        }else{
-            button.innerHTML = 'Stop';
-            button.value = 'false';
-        }
-    }
+function emitChecked(emitValue, e){
+    socket.emit(emitValue, {
+        value: e.target.checked
+    });
+}
 
-    // red.addEventListener('change', emitValue.bind(null, 'red'));
-    // blue.addEventListener('change', emitValue.bind(null, 'blue'));
-    // green.addEventListener('change', emitValue.bind(null, 'green'));
+function emitValue(device, e) {
+    socket.emit('update', {
+        device: device,
+        value: e.target.value
+    });
+}
 
-    temperature.addEventListener('change', emitValue.bind(null, 'temperature'));
-    startHour.addEventListener('change', emitValue.bind(null, 'startHour'));
-    finishHour.addEventListener('change', emitValue.bind(null, 'finishHour'));
+function emitButtonValue(emitValue, e){
+    socket.emit(emitValue, {
+        value: e.target.value
+    });
+}
 
-    button.addEventListener('click', start());
+function addEventListeners(){
+    tempMax.addEventListener('change', emitValue.bind(null, 'tempMax'));
+    tempMin.addEventListener('change', emitValue.bind(null, 'tempMin'));
+    humidityMax.addEventListener('change', emitValue.bind(null, 'humidityMax'));
+    humidityMin.addEventListener('change', emitValue.bind(null, 'humidityMin'));
+}
 
+function setSocketActions(){
     socket.on('connect', function(data) {
         socket.emit('join', 'Client is connected!');
     });
 
-    // socket.on('rgb', function(data) {
-    //     var color = data.color;
-    //     document.getElementById(color).value = data.value;
-    // });
-
-    socket.on('rgb', function(data) {
-        var device = data.device;
-        document.getElementById(device).value = data.value;
+    socket.on('Temp', function(data){
+        console.log(data);
+        document
     });
 
-}());
+    // socket.on('setSavedParameters', function(data){
+    //     light.value = data.light;
+    //     sound.value = data.sound;
+    //     activeBuzzerCheckbox.checked = data.buzzerOn;
+    //     rgbLedCheckbox.checked = data.alarmLedOn;
+    //     lightSystemCheckBox.checked = data.lightSystemActive;
+    //     alarmSystemCheckbox.checked = data.alarmSystemActive;
+    // });
+}
