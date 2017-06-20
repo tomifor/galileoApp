@@ -30,6 +30,16 @@ var state = {
 };
 
 
+var interval = 3000; //enter the time between sensor queries here (in milliseconds)
+ 
+//when a client connects
+io.sockets.on('connection', function (socket) {
+    //initiate interval timer
+    setInterval(function () {
+      socket.emit('Temp', temperature.celsius);
+    }, interval);
+});
+
 app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res, next) {
   res.sendFile('./index.html');
@@ -45,7 +55,7 @@ board.on('ready', function() {
     });
 
   temperature.on("change", function() {
-      displayTemperature(this.celsius);
+      displayTemperatureInLCD(this.celsius);
       //console.log(this.celsius + "°C", this.fahrenheit + "°F");
     if( this.celsius < 200 ){
       console.log(true);

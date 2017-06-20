@@ -18,9 +18,13 @@
   <script type="text/javascript">
     var socket = io();
 
-    socket.on('Temp', function(msg){
-        console.log(msg);
-    });
+    
+ 
+ //update corresponding row with sensor value
+ socket.on('Temp', function (data) {
+  console.log(data);
+  console.log(1);
+ });
 
 
 
