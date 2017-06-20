@@ -52,7 +52,7 @@ board.on('ready', function() {
 
   temperature.on("change", function() {
     displayTemperature(this.celsius);
-    console.log('maxTemp:' + maxTemp);
+    console.log('maxTemp:' + tempMax);
     if(this.celsius < tempMin ){
       ledHot.on();
     }else if(this.celsius > tempMax){
