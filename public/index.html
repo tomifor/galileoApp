@@ -1,62 +1,113 @@
 <!doctype html>
 <html>
-<head>
-<meta charset="utf-8">
-<title>LCD</title>
-<link rel="stylesheet" type="text/css" href="./style.css">
-</head>
+  <head>
+    <meta charset="utf-8">
+    <title>LCD</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="stylesheet" type="text/css" href="./bootstrap.min.css">
+  </head>
 
 <body>
 
-    <div class="container">
-        <header>
-           <h1>Invernadero</h1>
-        </header>
+  <nav class="navbar navbar-inverse container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">Smart GreenHouse</a>
+    </div>
+  </nav>
 
-        <nav>
-          <p>Select the parameters desired for the proper working of the system according to your needs.</p>
-        </nav>
 
-        <div>
-          Temperatura: aca va la temp 
-          Humedad: aca va humedad del suelo
+<!-- information about temperature and humiture ------->
+  <div class="container">
+    <div class="row information-row">
+        <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12 information">
+          <p>Temperatura: 20°C</p>
         </div>
+        <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12 information pull-right">
+          <p>Humedad: 50%</p>
+        </div>
+    </div>
 
-        <button type="button" id="operateButton" value = "true">Start</button>
-        <form id="appFormId">
 
-            <div class="article-containter">
-            <article>
-              <h1>TEMPERATURE</h1>
-               MAX:  <input type="range" min="15" max="24" step="1" value="0" id="light">
-               MIN:  <input type="range" min="24" max="40" step="1" value="0" id="light">
-            </article>
-           
-            <article>
-              <h1>HUMEDAD</h1>
-               MAX:  <input type="range" min="0" max="1023" step="1" value="0" id="sound">
-               MIN:  <input type="range" min="0" max="1023" step="1" value="0" id="sound">
-            </article>
-            
+    <div class="row form-row">
+        <div class="article-containter">
+          <article>
+            <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12 information">
+              <form id="temperatureForm">
+                <p>Temperatura</p>
 
-            <article>
-              <h1>Time</h1>
-               Starting Hour:  <input type="number" min="0" max="23.5" step="0.5" value="0" id="startHour">
-               Finishing Hour:  <input type="number" min="0" max="23.5" step="0.5" value="0" id="finishHour">   <!-- aca se podria poner que el valor del FH sea por default igual a SH +0.5 -->
-            </article>
+                 <p>MAX: <output name="range" id="temperatureMax">24</output> </p>
+                 <input type="range" min="24" max="40" step="1" value="15" id="temperature-max" onchange="temperatureMax.value = value">
 
-            <article>
-                <button type="submit">Submit</button>
+                 <p>MIN: <output name="range" id="temperatureMin">15</output> </p>
+                 <input type="range" min="15" max="24" step="1" value="0" id="temperature-min" onchange="temperatureMin.value = value">
+
+                 <button type="submit" class="btn btn-success btn-submit">Aplicar</button>
+             </form>
             </article>
+          </div>
+
+          <article>
+            <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12 information pull-right">
+              <form id="humidityForm">
+                <p>Humedad</p>
+                 <p>MAX:<output name="range" id="humidityMax">25</output></p>
+                 <input type="range" min="0" max="1023" step="1" value="0" id="humidity-max" onchange="humidityMax.value = value">
+
+                 <p>MIN: <output name="range" id="humidityMin">25</output> </p>
+                 <input type="range" min="0" max="1023" step="1" value="0" id="humidity-min" onchange="humidityMin.value = value">
+                 <button type="submit" class="btn btn-success btn-submit">Aplicar</button>
+              </form>
             </div>
+          </article>
+        </div>
+      </div>
 
-        </form>
+      <div class="row material-switch">
+          <input id="someSwitchOptionSuccess" name="someSwitchOption001" type="checkbox"/>
+          <label for="someSwitchOptionSuccess" class="label-success"></label>
+      </div>
+
+    <div class="row">
+      <div class="col-lg-offset-3 col-md-4 col-sm-8 col-xs-8 offset-lg-4">
+        <h2>Riego</h2>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
+        <label class="switch">
+          <input type="checkbox">
+          <div class="slider round"></div>
+        </label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
+        <h2>Aire frio</h2>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
+        <label class="switch">
+          <input type="checkbox">
+          <div class="slider round"></div>
+        </label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        <h2>Aire caliente</h2>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+        <label class="switch">
+          <input type="checkbox">
+          <div class="slider round"></div>
+        </label>
+      </div>
+    </div>
+
 
     </div>
 
-<script src="./jquery-3.2.0.min.js"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="./client.js"></script>
+    <script src="./jquery-3.2.0.min.js"></script>
+    <script src="./bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="./client.js"></script>
 
-</body>
+  </body>
 </html>
