@@ -35,6 +35,7 @@ var interval = 3000; //enter the time between sensor queries here (in millisecon
 //when a client connects
 io.sockets.on('connection', function (socket) {
     //initiate interval timer
+    console.log("Connected");
     setInterval(function () {
       socket.emit('Temp', temperature.celsius);
     }, interval);
