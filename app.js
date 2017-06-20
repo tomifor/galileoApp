@@ -147,7 +147,7 @@ function printParameters(temperature){
 
 function displayTemperature (temperature) {
   displayTemperatureInLCD(temperature);
-  socketClient.emit('Temp', temperature);
+  // socketClient.emit('Temp', temperature);
 }
 
 function displayTemperatureInLCD(temperature) {
