@@ -57,7 +57,7 @@ board.on('ready', function() {
   });
 
   humidity.on("change", function() {
-    displayHumidityInLCD(sensor.scaleTo([0, 80]));
+    displayHumidityInLCD(humidity.scaleTo([0, 80]));
   });
 
 });
