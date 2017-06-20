@@ -92,8 +92,10 @@ board.on('ready', function() {
 
     io.on('connection', function(client) {
         socketClient = client;
+        client.on('join', function(handshake) {
+        console.log(handshake);
     });
-    socketClient.on('update', function(data) {
+    client.on('update', function(data) {
         tempMax = data.device === 'tempMax' ? data.value : tempMax;
         tempMin = data.device === 'tempMin' ? data.value : tempMin;
         humidityMax = data.device === 'humidityMax' ? data.value : humidityMax;
@@ -103,11 +105,11 @@ board.on('ready', function() {
         client.broadcast.emit('update', data);
     });
 
-    socketClient.on('saveValues', function(){
+    client.on('saveValues', function(){
         saveParameteres();
     });
 
-    socketClient.on('defaultValues', function(){
+    client.on('defaultValues', function(){
         setSavedParameters();
     });
   }
