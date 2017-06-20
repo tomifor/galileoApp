@@ -91,27 +91,28 @@ board.on('ready', function() {
     console.log('Setting up socket');
 
     io.on('connection', function(client) {
-        socketClient = client;
-        client.on('join', function(handshake) {
+      socketClient = client;
+      client.on('join', function(handshake) {
         console.log(handshake);
-    });
-    client.on('update', function(data) {
-        tempMax = data.device === 'tempMax' ? data.value : tempMax;
-        tempMin = data.device === 'tempMin' ? data.value : tempMin;
-        humidityMax = data.device === 'humidityMax' ? data.value : humidityMax;
-        tempMin = data.device === 'humidityMin' ? data.value : humidityMin;
+      });
+      client.on('update', function(data) {
+          tempMax = data.device === 'tempMax' ? data.value : tempMax;
+          tempMin = data.device === 'tempMin' ? data.value : tempMin;
+          humidityMax = data.device === 'humidityMax' ? data.value : humidityMax;
+          tempMin = data.device === 'humidityMin' ? data.value : humidityMin;
 
-        client.emit('update', data);
-        client.broadcast.emit('update', data);
-    });
+          client.emit('update', data);
+          client.broadcast.emit('update', data);
+      });
 
-    client.on('saveValues', function(){
-        saveParameteres();
-    });
+      client.on('saveValues', function(){
+          saveParameteres();
+      });
 
-    client.on('defaultValues', function(){
-        setSavedParameters();
-    });
+      client.on('defaultValues', function(){
+          setSavedParameters();
+      });
+    }
   }
 
   // io.on('connection', function(client) {
