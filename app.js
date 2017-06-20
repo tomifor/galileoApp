@@ -22,7 +22,7 @@ var temperature = new five.Thermometer({
   pin: "A0",
   freq: 100,
   toCelsius: function(raw) {
-    return raw - 240;
+    return raw - 230;
   }
 });
 
@@ -61,6 +61,8 @@ board.on('ready', function() {
     }
     });
 
+     setClientActions();
+
   temperature.on("change", function() {
     displayTemperature(this.celsius);
     if(this.celsius < tempMin ){
@@ -82,8 +84,6 @@ board.on('ready', function() {
       ledCold.off
     }
   });
-
-  setClientActions();
 
 });
 
