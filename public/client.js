@@ -17,10 +17,10 @@ $(document).ready(function(){
 });
 
 function prepareDOMVariables(){
-    temperatureMax = document.getElementById('temperatureMax');
-    temperatureMin = document.getElementById('temperatureMin');
-    humidityMax = document.getElementById('humidityMax');
-    humidityMin = document.getElementById('humidityMin');
+    temperatureMax = document.getElementById('temperature-max');
+    temperatureMin = document.getElementById('temperature-min');
+    humidityMax = document.getElementById('humidity-max');
+    humidityMin = document.getElementById('humidity-min');
 }
 
 function emitChecked(emitValue, e){
