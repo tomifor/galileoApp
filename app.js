@@ -96,6 +96,7 @@ board.on('ready', function() {
         console.log(handshake);
       });
       client.on('update', function(data) {
+          console.log(1);
           tempMax = data.device === 'temperatureMax' ? data.value : tempMax;
           tempMin = data.device === 'temperatureMin' ? data.value : tempMin;
           humidityMax = data.device === 'humidityMax' ? data.value : humidityMax;
