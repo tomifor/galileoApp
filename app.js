@@ -47,7 +47,6 @@ board.on('ready', function() {
   temperature.on("change", function() {
       displayTemperatureInLCD(this.celsius);
       console.log(this.celsius + "°C", this.fahrenheit + "°F");
-      console.log(this.celsius);
     if( this.celsius < 200 ){
       console.log(true);
       ledHot.on();
@@ -57,19 +56,12 @@ board.on('ready', function() {
   });
 
   humidity.on("change", function() {
-    displayHumidityInLCD(humidity.scaleTo([0, 80]));
+    displayHumidityInLCD(humidity.scaleTo([0, 100]));
   });
 
 });
 
   console.log('temperature sensor setup correctly');
-
-  var checkTime = function(){
-      var timeFlag = checkDate(state);
-  };
-
-  setInterval(checkTime, 60 * 1000 * 2);
-
 
   io.on('connection', function(client) {
     client.on('join', function(handshake) {
@@ -111,15 +103,6 @@ function displayHumidityInLCD(humidity) {
   lcd.print('Hum: ' + humidity);
 }
 
-function checkDate(state){
-    var date = new Date();
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    var toCheck;
-    if(minutes < 30) toCheck = hours;
-    else toCheck = hours + 0.5;
-    return state.startHour < toCheck && state.finishHour > toCheck;
-}
 
 port = process.env.PORT || 3000;
 
