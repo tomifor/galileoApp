@@ -29,9 +29,9 @@ function emitChecked(emitValue, e){
     });
 }
 
-function emitValue(device, e) {
+function emitValue(e) {
+    console.log(e);
     socket.emit('update', {
-        device: device,
         value: e.target.value
     });
 }
@@ -43,10 +43,10 @@ function emitButtonValue(emitValue, e){
 }
 
 function addEventListeners(){
-    tempMax.addEventListener('change', emitValue.bind(null, 'temperatureMax'));
-    tempMin.addEventListener('change', emitValue.bind(null, 'temperatureMin'));
-    humidityMax.addEventListener('change', emitValue.bind(null, 'humidityMax'));
-    humidityMin.addEventListener('change', emitValue.bind(null, 'humidityMin'));
+    tempMax.addEventListener('change', emitValue.bind('temperatureMax'));
+    tempMin.addEventListener('change', emitValue.bind('temperatureMin'));
+    humidityMax.addEventListener('change', emitValue.bind('humidityMax'));
+    humidityMin.addEventListener('change', emitValue.bind('humidityMin'));
 }
 
 function setSocketActions(){

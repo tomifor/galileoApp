@@ -36,17 +36,6 @@ var humidityMin = 0;
 var humidity = 0;
 
 
-// var interval = 3000; //enter the time between sensor queries here (in milliseconds)
- 
-// //when a client connects
-// io.sockets.on('connection', function (socket) {
-//     //initiate interval timer
-//     console.log("Connected");
-//     setInterval(function () {
-//       socket.emit('Temp', temperature.celsius);
-//     }, interval);
-// });
-
 app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res, next) {
   res.sendFile('./index.html');
@@ -60,8 +49,6 @@ board.on('ready', function() {
       ledHot.on();
     }
     });
-
-  setClientActions();
 
   temperature.on("change", function() {
     displayTemperature(this.celsius);
@@ -85,6 +72,8 @@ board.on('ready', function() {
     }
   });
 
+  setClientActions();
+
 });
 
   function setClientActions(){
@@ -92,6 +81,7 @@ board.on('ready', function() {
 
     io.on('connection', function(client) {
       socketClient = client;
+      console.log(socketClient);
       client.on('join', function(handshake) {
         console.log(handshake);
       });
