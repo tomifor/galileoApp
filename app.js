@@ -45,8 +45,8 @@ board.on('ready', function() {
     });
 
   temperature.on("change", function() {
-      displayTemperatureInLCD(this.celsius);
-      console.log(this.celsius + "°C", this.fahrenheit + "°F");
+      displayTemperature(this.celsius);
+      //console.log(this.celsius + "°C", this.fahrenheit + "°F");
     if( this.celsius < 200 ){
       console.log(true);
       ledHot.on();
@@ -63,27 +63,28 @@ board.on('ready', function() {
 
   console.log('temperature sensor setup correctly');
 
-  io.on('connection', function(client) {
-    client.on('join', function(handshake) {
-      console.log(handshake);
-    });
 
-    client.on('update', function(data) {
-      state.temperature = data.device === 'temperature' ? data.value : state.temperature;
+  // io.on('connection', function(client) {
+  //   client.on('join', function(handshake) {
+  //     console.log(handshake);
+  //   });
+
+  //   client.on('update', function(data) {
+  //     state.temperature = data.device === 'temperature' ? data.value : state.temperature;
       
-      printParameters(state.temperature);
+  //     printParameters(state.temperature);
 
-      client.emit('update', data);
-      client.broadcast.emit('update', data);
-    });
+  //     client.emit('update', data);
+  //     client.broadcast.emit('update', data);
+  //   });
 
-    client.on('operate', function(data){
-        console.log("Operate was emitted");
-        operate = Boolean(data.value);
-        if(operate === false) ledHot.off();
-    });
+  //   client.on('operate', function(data){
+  //       console.log("Operate was emitted");
+  //       operate = Boolean(data.value);
+  //       if(operate === false) ledHot.off();
+  //   });
 
-  });
+  // });
 
   console.log('Socket setup correctly');
   console.log('Board setup correctly');
@@ -91,6 +92,13 @@ board.on('ready', function() {
 
 function printParameters(temperature){
     console.log('Temperature: ' + temperature);
+}
+
+function displayTemperature (temperature) {
+  displayTemperatureInLCD(temperature);
+  io.on('Temp', function(tmp) {
+    io.sockets.emit(tmp);
+  });
 }
 
 function displayTemperatureInLCD(temperature) {

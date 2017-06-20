@@ -15,8 +15,19 @@
     </div>
   </nav>
 
+  <script type="text/javascript">
+    var socket = io();
 
-<!-- information about temperature and humiture ------->
+    socket.on('Temp', function(msg){
+        console.log(msg);
+    });
+
+
+
+  </script>
+
+
+<!-- information about temperature and humiture -->
   <div class="container">
     <div class="row information-row">
         <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12 information">
