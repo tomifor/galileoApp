@@ -1,7 +1,7 @@
 var socket;
 var light;
-var tempMax;
-var tempMin;
+var temperatureMax;
+var temperatureMin;
 var humidityMax;
 var humidityMin;
 
@@ -17,8 +17,8 @@ $(document).ready(function(){
 });
 
 function prepareDOMVariables(){
-    tempMax = document.getElementById('temperatureMax');
-    tempMin = document.getElementById('temperatureMin');
+    temperatureMax = document.getElementById('temperatureMax');
+    temperatureMin = document.getElementById('temperatureMin');
     humidityMax = document.getElementById('humidityMax');
     humidityMin = document.getElementById('humidityMin');
 }
@@ -43,8 +43,8 @@ function emitButtonValue(emitValue, e){
 }
 
 function addEventListeners(){
-    tempMax.addEventListener('change', emitValue.bind(null, 'tempMax'));
-    tempMin.addEventListener('change', emitValue.bind(null, 'tempMin'));
+    tempMax.addEventListener('change', emitValue.bind(null, 'temperatureMax'));
+    tempMin.addEventListener('change', emitValue.bind(null, 'temperatureMin'));
     humidityMax.addEventListener('change', emitValue.bind(null, 'humidityMax'));
     humidityMin.addEventListener('change', emitValue.bind(null, 'humidityMin'));
 }
