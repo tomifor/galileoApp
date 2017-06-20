@@ -112,7 +112,7 @@ board.on('ready', function() {
       client.on('defaultValues', function(){
           setSavedParameters();
       });
-    }
+    });
   }
 
   // io.on('connection', function(client) {
