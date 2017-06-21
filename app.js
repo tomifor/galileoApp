@@ -52,7 +52,6 @@ board.on('ready', function() {
     });
 
   temperature.on("change", function() {
-    // displayTemperature(this.celsius);
     displayInformation();
     if(this.celsius < tempMin ){
       ledHot.on();
@@ -67,10 +66,11 @@ board.on('ready', function() {
   humiditySensor.on("change", function() {
     humidity = humiditySensor.scaleTo([0, 100]);
     displayInformation();
-    // displayHumidityInLCD(humidity);
-     if(humidity > humidityMax ){
+     if(humidity > humidityMax){
+      console.log('ON');
       ledWater.on();
     }else if(humidity < humidityMin){
+      console.log('OFF');
       ledWater.off
     }
   });
