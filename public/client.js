@@ -55,11 +55,10 @@ function setSocketActions(){
 
     socket.on('Temp', function(data){
         document.getElementById("temp").innerHTML = data;
-        console.log(data);
     });
 
     socket.on('Hum', function(data){
-        console.log(data);
+        document.getElementById("hum").innerHTML = data;
     });
 
     // socket.on('setSavedParameters', function(data){
