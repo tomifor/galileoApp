@@ -10,8 +10,8 @@ var board = new five.Board({
      io: new Galileo()
 });
 
-var ledHot = new five.Led(8);
-var ledCold = new five.Led(12);
+var ledHot = new five.Led(10);
+var ledCold = new five.Led(8);
 var ledWater = new five.Led(13);
 
 var lcd = new five.LCD({
