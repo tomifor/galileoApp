@@ -51,7 +51,8 @@ board.on('ready', function() {
     });
 
   temperature.on("change", function() {
-    displayTemperature(this.celsius);
+    // displayTemperature(this.celsius);
+    displayInformation();
     if(this.celsius < tempMin ){
       ledHot.on();
     }else if(this.celsius > tempMax){
@@ -64,7 +65,8 @@ board.on('ready', function() {
 
   humiditySensor.on("change", function() {
     humidity = humiditySensor.scaleTo([0, 100]);
-    displayHumidityInLCD(humidity);
+    displayInformation();
+    // displayHumidityInLCD(humidity);
      if(humidity > humidityMax ){
       ledWater.on();
     }else if(humidity < humidityMin){
@@ -88,15 +90,19 @@ board.on('ready', function() {
           console.log(data);
           if(data.device === 'temperatureMax'){
             tempMax = data.value;
+            displayInformation();
             // displayTemperatureInLCD();
           }else if (data.device === 'temperatureMin') {
             tempMin = data.value;
+            displayInformation();
             // displayTemperatureInLCD();
           }else if(data.device === 'humidityMax'){
             humidityMax = data.value;
+            displayInformation();
             // displayHumidityInLCD();
           }else if(data.device === 'humidityMin'){
             humidityMin = data.value;
+            displayInformation();
             // displayHumidityInLCD();
           }
           client.emit('update', data);
@@ -155,12 +161,18 @@ function displayTemperatureInLCD(temperature) {
   lcd.print('Temp: ' + temperature + ' ' + tempMin + ' ' + tempMax);
 }
 
-function displayHumidityInLCD(humidity) {
+function displayHumidityInLCD() {
   lcd.cursor(1, 0);
   lcd.print('Hum:  ' + humidity + ' ' + humidityMin + ' ' + humidityMax);
 }
 
-
+function displayInformation() {
+  lcd.clear();
+  lcd.home();
+  lcd.print('Temp: ' + temperature.toCelsius + ' ' + tempMin + ' ' + tempMax);
+  lcd.cursor(1, 0);
+  lcd.print('Hum:  ' + humidity + ' ' + humidityMin + ' ' + humidityMax);
+}
 
 function setSavedParameters(){
     var file = './resources/data.json';
