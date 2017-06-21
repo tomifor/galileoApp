@@ -36,11 +36,11 @@
               <form id="temperatureForm">
                 <p>Temperatura</p>
 
-                 <p>MAX: <output name="range1" id="temperaturemo">25</output> </p>
-                 <input type="range" min="0" max="100" step="1" value="25" id="temperatureMax" onchange="temperaturemo.value = value">
+                 <p>MAX: <output name="range1" id="temperatureMaxO">25</output> </p>
+                 <input type="range" min="0" max="100" step="1" value="25" id="temperatureMax" onchange="temperatureMaxO.value = value">
 
-                 <p>MIN: <!-- <output name="range2" id="temperatureMin">15</output> --> </p>
-                 <input type="range" min="0" max="100" step="1" value="15" id="temperatureMin">
+                 <p>MIN: <output name="range2" id="temperatureMinO">15</output> </p>
+                 <input type="range" min="0" max="100" step="1" value="15" id="temperatureMin" onchange="temperatureMinO.value = value">
 
                  <button type="submit" class="btn btn-success btn-submit">Aplicar</button>
               </form>
@@ -51,12 +51,12 @@
             <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12 information pull-right">
               <form id="humidityForm">
                 <p>Humedad</p>
-                 <p>MAX: <!-- <output name="range3" id="humidityMax">25</output> --></p>
-                 <input type="range" min="0" max="100" step="1" value="40" id="humidityMax" >
+                 <p>MAX: <output name="range3" id="humidityMaxO">25</output></p>
+                 <input type="range" min="0" max="100" step="1" value="40" id="humidityMax" onchange="humidityMaxO.value = value" >
   
 
-                 <p>MIN: <!-- <output name="range" id="humidityMin">25</output>  --></p>
-                 <input type="range" min="0" max="100" step="1" value="20" id="humidityMin">
+                 <p>MIN: <output name="range" id="humidityMinO">25</output> </p>
+                 <input type="range" min="0" max="100" step="1" value="20" id="humidityMin" onchange="humidityMinO.value = value">
                  
                  <button type="submit" class="btn btn-success btn-submit">Guardar</button>
               </form>
