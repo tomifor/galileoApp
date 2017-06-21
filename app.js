@@ -66,9 +66,9 @@ board.on('ready', function() {
 });
 
 function controlTemperature(){
-  if(this.celsius < tempMin ){
+  if(temperature.celsius < tempMin ){
     ledHot.on();
-  }else if(this.celsius > tempMax){
+  }else if(temperature.celsius > tempMax){
     ledCold.on();
   }else {
     ledCold.off();
