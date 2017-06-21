@@ -8,7 +8,6 @@ var humidityMin;
 
 $(document).ready(function(){
     socket = io.connect(window.location.hostname + ':' + 3000);
-    console.log(99999999999999);
     prepareDOMVariables();
     //
     addEventListeners();
@@ -17,7 +16,6 @@ $(document).ready(function(){
 });
 
 function prepareDOMVariables(){
-    console.log(888888888888888888);
     temperatureMax = document.getElementById('temperatureMax');
     temperatureMin = document.getElementById('temperatureMin');
     humidityMax = document.getElementById('humidityMax');

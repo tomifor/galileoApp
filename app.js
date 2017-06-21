@@ -22,7 +22,8 @@ var temperature = new five.Thermometer({
   pin: "A0",
   freq: 100,
   toCelsius: function(raw) {
-    return raw - 230;
+    var volt = ((raw * 3.3) / 1024);
+    return (volt - 0.5) * 100;
   }
 });
 
@@ -87,24 +88,16 @@ board.on('ready', function() {
         console.log(handshake);
       });
       client.on('update', function(data) {
-          console.log(data);
           if(data.device === 'temperatureMax'){
             tempMax = data.value;
-            displayInformation();
-            // displayTemperatureInLCD();
           }else if (data.device === 'temperatureMin') {
             tempMin = data.value;
-            displayInformation();
-            // displayTemperatureInLCD();
           }else if(data.device === 'humidityMax'){
             humidityMax = data.value;
-            displayInformation();
-            // displayHumidityInLCD();
           }else if(data.device === 'humidityMin'){
             humidityMin = data.value;
-            displayInformation();
-            // displayHumidityInLCD();
           }
+          displayInformation();
           client.emit('update', data);
           client.broadcast.emit('update', data);
       });
@@ -144,10 +137,6 @@ board.on('ready', function() {
   console.log('Socket setup correctly');
   console.log('Board setup correctly');
 
-
-function printParameters(temperature){
-    console.log('Temperature: ' + temperature);
-}
 
 // function displayTemperature (temperature) {
 //   displayTemperatureInLCD(temperature);
