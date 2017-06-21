@@ -57,7 +57,6 @@ function setSocketActions(){
 
     socket.on('Temp', function(data){
         console.log(data);
-        document
     });
 
     // socket.on('setSavedParameters', function(data){
