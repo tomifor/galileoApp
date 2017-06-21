@@ -87,10 +87,10 @@ board.on('ready', function() {
       });
       client.on('update', function(data) {
           console.log(data);
-          tempMax = data.value === 'temperatureMax' ? data.value : tempMax;
-          tempMin = data.value === 'temperatureMin' ? data.value : tempMin;
-          humidityMax = data.value === 'humidityMax' ? data.value : humidityMax;
-          tempMin = data.value === 'humidityMin' ? data.value : humidityMin;
+          tempMax = data.device === 'temperatureMax' ? data.value : tempMax;
+          tempMin = data.device === 'temperatureMin' ? data.value : tempMin;
+          humidityMax = data.device === 'humidityMax' ? data.value : humidityMax;
+          tempMin = data.device === 'humidityMin' ? data.value : humidityMin;
 
           client.emit('update', data);
           client.broadcast.emit('update', data);
