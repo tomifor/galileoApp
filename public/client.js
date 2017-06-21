@@ -54,6 +54,7 @@ function setSocketActions(){
     });
 
     socket.on('Temp', function(data){
+        document.getElementById("temp").innerHTML = data;
         console.log(data);
     });
 

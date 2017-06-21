@@ -29,10 +29,10 @@ var temperature = new five.Thermometer({
 var humiditySensor = new five.Sensor("A0");
 
 var socketClient = null;
-var tempMax = 15;
-var tempMin = 0;
-var humidityMax = 20;
-var humidityMin = 0;
+var tempMax = 25;
+var tempMin = 15;
+var humidityMax = 40;
+var humidityMin = 20;
 var humidity = 0;
 
 
