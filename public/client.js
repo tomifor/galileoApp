@@ -31,7 +31,6 @@ function emitChecked(emitValue, e){
 }
 
 function emitValue(e) {
-    console.log(e);
     socket.emit('update', {
         value: e.target.value
     });
