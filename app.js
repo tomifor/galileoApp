@@ -88,16 +88,16 @@ board.on('ready', function() {
           console.log(data);
           if(data.device === 'temperatureMax'){
             tempMax = data.value;
-            displayTemperatureInLCD();
+            // displayTemperatureInLCD();
           }else if (data.device === 'temperatureMin') {
             tempMin = data.value;
-            displayTemperatureInLCD();
+            // displayTemperatureInLCD();
           }else if(data.device === 'humidityMax'){
             humidityMax = data.value;
-            displayHumidityInLCD();
+            // displayHumidityInLCD();
           }else if(data.device === 'humidityMin'){
             humidityMin = data.value;
-            displayHumidityInLCD();
+            // displayHumidityInLCD();
           }
           client.emit('update', data);
           client.broadcast.emit('update', data);
@@ -159,6 +159,8 @@ function displayHumidityInLCD(humidity) {
   lcd.cursor(1, 0);
   lcd.print('Hum:  ' + humidity + ' ' + humidityMin + ' ' + humidityMax);
 }
+
+
 
 function setSavedParameters(){
     var file = './resources/data.json';
