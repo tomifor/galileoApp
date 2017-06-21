@@ -53,64 +53,72 @@ board.on('ready', function() {
 
   temperature.on("change", function() {
     displayInformation();
-    if(this.celsius < tempMin ){
-      ledHot.on();
-    }else if(this.celsius > tempMax){
-      ledCold.on();
-    }else {
-      ledCold.off();
-      ledHot.off();
-    }
+    controlTemperature();
   });
 
   humiditySensor.on("change", function() {
     humidity = humiditySensor.scaleTo([0, 100]);
     displayInformation();
-     if(humidity > humidityMax){
-      console.log('ON');
-      ledWater.on();
-    }else if(humidity < humidityMin){
-      console.log('OFF');
-      ledWater.off
-    }
+    controlHumidity();
   });
 
   setClientActions();
 
 });
 
-  function setClientActions(){
-    console.log('Setting up socket');
-
-    io.on('connection', function(client) {
-      socketClient = client;
-      client.on('join', function(handshake) {
-        console.log(handshake);
-      });
-      client.on('update', function(data) {
-          if(data.device === 'temperatureMax'){
-            tempMax = data.value;
-          }else if (data.device === 'temperatureMin') {
-            tempMin = data.value;
-          }else if(data.device === 'humidityMax'){
-            humidityMax = data.value;
-          }else if(data.device === 'humidityMin'){
-            humidityMin = data.value;
-          }
-          displayInformation();
-          client.emit('update', data);
-          client.broadcast.emit('update', data);
-      });
-
-      client.on('saveValues', function(){
-          saveParameteres();
-      });
-
-      client.on('defaultValues', function(){
-          setSavedParameters();
-      });
-    });
+function controlTemperature(){
+  if(this.celsius < tempMin ){
+    ledHot.on();
+  }else if(this.celsius > tempMax){
+    ledCold.on();
+  }else {
+    ledCold.off();
+    ledHot.off();
   }
+}
+
+function controlHumidity(){
+  if(humidity > humidityMax){
+    ledWater.on();
+  }else if(humidity < humidityMin){
+    ledWater.off();
+  }
+}
+
+function setClientActions(){
+  console.log('Setting up socket');
+
+  io.on('connection', function(client) {
+    socketClient = client;
+    client.on('join', function(handshake) {
+      console.log(handshake);
+    });
+    client.on('update', function(data) {
+        if(data.device === 'temperatureMax'){
+          tempMax = data.value;
+        }else if (data.device === 'temperatureMin') {
+          tempMin = data.value;
+        }else if(data.device === 'humidityMax'){
+          humidityMax = data.value;
+        }else if(data.device === 'humidityMin'){
+          humidityMin = data.value;
+        }
+        controlHumidity();
+        controlTemperature();
+        displayInformation();
+        client.emit('update', data);
+        client.broadcast.emit('update', data);
+    });
+
+    client.on('saveValues', function(){
+        saveParameteres();
+    });
+
+    client.on('defaultValues', function(){
+        setSavedParameters();
+    });
+  });
+}
 
   // io.on('connection', function(client) {
   //   client.on('join', function(handshake) {
