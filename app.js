@@ -169,7 +169,7 @@ function displayHumidityInLCD() {
 function displayInformation() {
   lcd.clear();
   lcd.home();
-  lcd.print('Temp: ' + temperature.toCelsius + ' ' + tempMin + ' ' + tempMax);
+  lcd.print('Temp: ' + temperature.celsius + ' ' + tempMin + ' ' + tempMax);
   lcd.cursor(1, 0);
   lcd.print('Hum:  ' + humidity + ' ' + humidityMin + ' ' + humidityMax);
 }
