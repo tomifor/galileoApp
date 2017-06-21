@@ -86,11 +86,19 @@ board.on('ready', function() {
       });
       client.on('update', function(data) {
           console.log(data);
-          tempMax = data.device === 'temperatureMax' ? data.value : tempMax;
-          tempMin = data.device === 'temperatureMin' ? data.value : tempMin;
-          humidityMax = data.device === 'humidityMax' ? data.value : humidityMax;
-          humidityMin = data.device === 'humidityMin' ? data.value : humidityMin;
-
+          if(data.device === 'temperatureMax'){
+            tempMax = data.value;
+            displayTemperatureInLCD();
+          }else if (data.device === 'temperatureMin') {
+            tempMin = data.value;
+            displayTemperatureInLCD();
+          }else if(data.device === 'humidityMax'){
+            humidityMax = data.value;
+            displayHumidityInLCD();
+          }else if(data.device === 'humidityMin'){
+            humidityMin = data.value;
+            displayHumidityInLCD();
+          }
           client.emit('update', data);
           client.broadcast.emit('update', data);
       });
