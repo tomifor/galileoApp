@@ -52,7 +52,6 @@ board.on('ready', function() {
 
   temperature.on("change", function() {
     displayTemperature(this.celsius);
-    console.log('maxTemp:' + tempMax);
     if(this.celsius < tempMin ){
       ledHot.on();
     }else if(this.celsius > tempMax){
@@ -90,7 +89,7 @@ board.on('ready', function() {
           tempMax = data.device === 'temperatureMax' ? data.value : tempMax;
           tempMin = data.device === 'temperatureMin' ? data.value : tempMin;
           humidityMax = data.device === 'humidityMax' ? data.value : humidityMax;
-          tempMin = data.device === 'humidityMin' ? data.value : humidityMin;
+          humidityMin = data.device === 'humidityMin' ? data.value : humidityMin;
 
           client.emit('update', data);
           client.broadcast.emit('update', data);
@@ -143,12 +142,12 @@ function displayTemperature (temperature) {
 
 function displayTemperatureInLCD(temperature) {
   lcd.home();
-  lcd.print('Temp: ' + temperature + ' ' + tempMax + ' ' + tempMin);
+  lcd.print('Temp: ' + temperature + ' ' + tempMin + ' ' + tempMax);
 }
 
 function displayHumidityInLCD(humidity) {
   lcd.cursor(1, 0);
-  lcd.print('Hum: ' + humidity + ' ' + humidityMax + ' ' + humidityMin);
+  cd.print('Hum:  ' + humidity + ' ' + humidityMin + ' ' + humidityMax);
 }
 
 function setSavedParameters(){
