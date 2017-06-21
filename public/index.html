@@ -31,29 +31,30 @@
         <div class="article-containter">
           <article>
             <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12 information">
-              <form id="temperatureForm">
+              <form id="temperatureForm" oninput"x.value=parseInt(temperatureMax.value)">
                 <p>Temperatura</p>
 
-                 <p>MAX: <output name="range" id="temperatureMax">24</output> </p>
-                 <input type="range" min="0" max="100" step="1" value="15" id="temperatureMax" onchange="temperatureMax.value = this.value">
+                 <p>MAX: <output name="range1" id="temperaturemo" for="temperatureMax"></output> </p>
+                 <input type="range" min="0" max="100" step="1" value="15" id="temperatureMax" >
 
-                 <p>MIN: <output name="range" id="temperatureMin">15</output> </p>
-                 <input type="range" min="0" max="100" step="1" value="0" id="temperatureMin" onchange="temperatureMin.value =  this.value">
+                 <p>MIN: <!-- <output name="range2" id="temperatureMin">15</output> --> </p>
+                 <input type="range" min="0" max="100" step="1" value="0" id="temperatureMin">
 
                  <button type="submit" class="btn btn-success btn-submit">Aplicar</button>
-             </form>
-            </article>
-          </div>
+              </form>
+            </div>
+          </article>
 
           <article>
             <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12 information pull-right">
               <form id="humidityForm">
                 <p>Humedad</p>
                  <p>MAX: <output name="range" id="humidityMax">25</output></p>
-                 <input type="range" min="0" max="100" step="1" value="0" id="humidityMax" onchange="humidityMax.value =  this.value">
+                 <input type="range" min="0" max="100" step="1" value="0" id="humidityMax" >
+                 onchange="humidityMax.value =  this.value"
 
                  <p>MIN: <output name="range" id="humidityMin">25</output> </p>
-                 <input type="range" min="0" max="100" step="1" value="0" id="humidityMin" onchange="humidityMin.value =  this.value">
+                 <input type="range" min="0" max="100" step="1" value="0" id="humidityMin" onchange="humidityMin.value = this.value">
                  <button type="submit" class="btn btn-success btn-submit">Aplicar</button>
               </form>
             </div>
@@ -61,7 +62,7 @@
         </div>
       </div>
 
-      <div class="row material-switch">
+    <!--   <div class="row material-switch">
           <input id="someSwitchOptionSuccess" name="someSwitchOption001" type="checkbox"/>
           <label for="someSwitchOptionSuccess" class="label-success"></label>
       </div>
@@ -99,10 +100,10 @@
         </label>
       </div>
     </div>
+ -->
 
-
-    </div>
-
+   
+</div>
     <script src="./jquery-3.2.0.min.js"></script>
     <script src="./bootstrap.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
