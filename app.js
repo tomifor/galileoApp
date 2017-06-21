@@ -149,29 +149,32 @@ function printParameters(temperature){
     console.log('Temperature: ' + temperature);
 }
 
-function displayTemperature (temperature) {
-  displayTemperatureInLCD(temperature);
-  if (socketClient != null) {
-    socketClient.emit('Temp', temperature);
-  };
-}
+// function displayTemperature (temperature) {
+//   displayTemperatureInLCD(temperature);
+//   if (socketClient != null) {
+//     socketClient.emit('Temp', temperature);
+//   };
+// }
 
-function displayTemperatureInLCD(temperature) {
-  lcd.home();
-  lcd.print('Temp: ' + temperature + ' ' + tempMin + ' ' + tempMax);
-}
+// function displayTemperatureInLCD(temperature) {
+//   lcd.home();
+//   lcd.print('Temp: ' + temperature + ' ' + tempMin + ' ' + tempMax);
+// }
 
-function displayHumidityInLCD() {
-  lcd.cursor(1, 0);
-  lcd.print('Hum:  ' + humidity + ' ' + humidityMin + ' ' + humidityMax);
-}
+// function displayHumidityInLCD() {
+//   lcd.cursor(1, 0);
+//   lcd.print('Hum:  ' + humidity + ' ' + humidityMin + ' ' + humidityMax);
+// }
 
 function displayInformation() {
-  lcd.clear();
   lcd.home();
   lcd.print('Temp: ' + temperature.celsius + ' ' + tempMin + ' ' + tempMax);
   lcd.cursor(1, 0);
   lcd.print('Hum:  ' + humidity + ' ' + humidityMin + ' ' + humidityMax);
+  if (socketClient != null) {
+    socketClient.emit('Temp', temperature.celsius);
+    socketClient.emit('Hum', humidity);
+  };
 }
 
 function setSavedParameters(){
