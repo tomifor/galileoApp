@@ -22,7 +22,7 @@ var temperature = new five.Thermometer({
   pin: "A0",
   freq: 100,
   toCelsius: function(raw) {
-    return raw - 230;
+    return raw - 641;
   }
 });
 
