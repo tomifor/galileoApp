@@ -21,9 +21,15 @@ var lcd = new five.LCD({
 var temperature = new five.Thermometer({
   pin: "A0",
   freq: 100,
+  // toCelsius: function(raw) {
+  //   var volt = (raw * 3.3)/1024;
+  //   return Math.abs(Math.floor(((volt - 0.5) * 100) - 130));
+  // }
   toCelsius: function(raw) {
-    var volt = (raw * 3.3)/1024;
-    return Math.abs(Math.floor(((volt - 0.5) * 100) - 130));
+    var temp = Math.log(10000.0 * (1024.0 / raw - 1));
+    temp = 1/(0.001129148 + (0.000234125 + (0.0000000876741 * temp * temp)) * temp);
+    temp -= 273.15;
+    return Math.floor(temp); 
   }
 });
 
