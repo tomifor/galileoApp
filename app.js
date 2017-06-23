@@ -170,7 +170,7 @@ function setClientActions(){
 // }
 
 function displayInformation() {
-  console.log(socketClient != null);
+  // console.log(socketClient != null);
   lcd.home();
   lcd.print('Temp: ' + temperature.celsius + ' ' + tempMin + ' ' + tempMax);
   lcd.cursor(1, 0);
