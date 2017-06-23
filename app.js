@@ -23,7 +23,7 @@ var temperature = new five.Thermometer({
   freq: 100,
   toCelsius: function(raw) {
     var volt = (raw * 3.3)/1024;
-    return (volt - 0.5) * 100;
+    return Math.floor((volt - 0.5) * 100);
   }
 });
 
