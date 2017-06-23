@@ -22,7 +22,8 @@ var temperature = new five.Thermometer({
   pin: "A0",
   freq: 100,
   toCelsius: function(raw) {
-    return raw - 580;
+    var volt (raw * 3.3)/1024;
+    return (volt - 0.5) * 100;
   }
 });
 
@@ -163,6 +164,7 @@ function setClientActions(){
 // }
 
 function displayInformation() {
+  console.log(socketClient != null);
   lcd.home();
   lcd.print('Temp: ' + temperature.celsius + ' ' + tempMin + ' ' + tempMax);
   lcd.cursor(1, 0);
