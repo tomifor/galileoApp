@@ -136,7 +136,6 @@ function displayInformation() {
   lcd.cursor(1, 0);
   lcd.print('Hum:  ' + humidity + ' ' + humidityMin + ' ' + humidityMax);
   if (socketClient != null) {
-    console.log(1);
     socketClient.emit('Temp', temperature.celsius);
     socketClient.emit('Hum', humidity);
   };
