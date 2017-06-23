@@ -57,12 +57,12 @@ board.on('ready', function() {
     }
     });
 
-  temperature.on("change", function() {
+  temperature.on("data", function() {
     displayInformation();
     controlTemperature();
   });
 
-  humiditySensor.on("change", function() {
+  humiditySensor.on("data", function() {
     humidity = humiditySensor.scaleTo([0, 100]);
     displayInformation();
     controlHumidity();
@@ -126,56 +126,17 @@ function setClientActions(){
   });
 }
 
-  // io.on('connection', function(client) {
-  //   client.on('join', function(handshake) {
-  //     console.log(handshake);
-  //   });
-
-  //   client.on('update', function(data) {
-  //     state.temperature = data.device === 'temperature' ? data.value : state.temperature;
-      
-  //     printParameters(state.temperature);
-
-  //     client.emit('update', data);
-  //     client.broadcast.emit('update', data);
-  //   });
-
-  //   client.on('operate', function(data){
-  //       console.log("Operate was emitted");
-  //       operate = Boolean(data.value);
-  //       if(operate === false) ledHot.off();
-  //   });
-
-  // });
-
   console.log('Socket setup correctly');
   console.log('Board setup correctly');
 
 
-// function displayTemperature (temperature) {
-//   displayTemperatureInLCD(temperature);
-//   if (socketClient != null) {
-//     socketClient.emit('Temp', temperature);
-//   };
-// }
-
-// function displayTemperatureInLCD(temperature) {
-//   lcd.home();
-//   lcd.print('Temp: ' + temperature + ' ' + tempMin + ' ' + tempMax);
-// }
-
-// function displayHumidityInLCD() {
-//   lcd.cursor(1, 0);
-//   lcd.print('Hum:  ' + humidity + ' ' + humidityMin + ' ' + humidityMax);
-// }
-
 function displayInformation() {
-  // console.log(socketClient != null);
   lcd.home();
   lcd.print('Temp: ' + temperature.celsius + ' ' + tempMin + ' ' + tempMax);
   lcd.cursor(1, 0);
   lcd.print('Hum:  ' + humidity + ' ' + humidityMin + ' ' + humidityMax);
   if (socketClient != null) {
+    console.log(1);
     socketClient.emit('Temp', temperature.celsius);
     socketClient.emit('Hum', humidity);
   };
