@@ -9,9 +9,9 @@ var humidityMin;
 $(document).ready(function(){
     socket = io.connect(window.location.hostname + ':' + 3000);
     prepareDOMVariables();
-    //
+    
     addEventListeners();
-    //
+    
     setSocketActions();
 });
 
@@ -61,12 +61,5 @@ function setSocketActions(){
         document.getElementById("hum").innerHTML = data;
     });
 
-    // socket.on('setSavedParameters', function(data){
-    //     light.value = data.light;
-    //     sound.value = data.sound;
-    //     activeBuzzerCheckbox.checked = data.buzzerOn;
-    //     rgbLedCheckbox.checked = data.alarmLedOn;
-    //     lightSystemCheckBox.checked = data.lightSystemActive;
-    //     alarmSystemCheckbox.checked = data.alarmSystemActive;
-    // });
+   
 }

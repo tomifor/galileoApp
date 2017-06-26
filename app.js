@@ -1,24 +1,22 @@
-// ~~~~~~~~~~~~~~~~~~~~~~ http://blog.ricardofilipe.com/post/getting-started-arduino-johhny-five ~~
-
-var five = require('johnny-five');
+var jf = require('johnny-five');
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var Galileo = require("galileo-io");
-var board = new five.Board({
+var board = new jf.Board({
      io: new Galileo()
 });
 
-var ledHot = new five.Led(10);
-var ledCold = new five.Led(8);
-var ledWater = new five.Led(13);
+var ledHot = new jf.Led(10);
+var ledCold = new jf.Led(8);
+var ledWater = new jf.Led(13);
 
-var lcd = new five.LCD({
+var lcd = new jf.LCD({
       controller: "PCF8574"
 });
 
-var temperature = new five.Thermometer({
+var temperature = new jf.Thermometer({
   pin: "A0",
   freq: 100,
   // toCelsius: function(raw) {
@@ -33,7 +31,7 @@ var temperature = new five.Thermometer({
   }
 });
 
-var humiditySensor = new five.Sensor("A0");
+var humiditySensor = new jf.Sensor("A0");
 
 var socketClient = null;
 var tempMax = 25;
@@ -92,12 +90,11 @@ function controlHumidity(){
 }
 
 function setClientActions(){
-  console.log('Setting up socket');
 
   io.on('connection', function(client) {
     socketClient = client;
     client.on('join', function(handshake) {
-      console.log(handshake);
+      // console.log(handshake);
     });
     client.on('update', function(data) {
         if(data.device === 'temperatureMax'){
@@ -126,8 +123,8 @@ function setClientActions(){
   });
 }
 
-  console.log('Socket setup correctly');
-  console.log('Board setup correctly');
+  // console.log('Socket setup correctly');
+  // console.log('Board setup correctly');
 
 
 function displayInformation() {
@@ -141,30 +138,29 @@ function displayInformation() {
   };
 }
 
-function setSavedParameters(){
-    var file = './resources/data.json';
-    var jsonParameters = jsonfile.readFileSync(file);
+// function setSavedParameters(){
+//     var file = './resources/data.json';
+//     var jsonParameters = jsonfile.readFileSync(file);
 
-    tempMax = jsonParameters.tempMax;
-    tempMin = jsonParameters.tempMin;
-    humidityMax = jsonParameters.humidityMax;
-    humidityMin = jsonParameters.humidityMin;
+//     tempMax = jsonParameters.tempMax;
+//     tempMin = jsonParameters.tempMin;
+//     humidityMax = jsonParameters.humidityMax;
+//     humidityMin = jsonParameters.humidityMin;
     
-    socketClient.emit('setSavedParameters', jsonParameters);
-}
+//     socketClient.emit('setSavedParameters', jsonParameters);
+// }
 
-function saveParameteres(){
+// function saveParameteres(){
 
-    var file = './resources/data.json';
-    var obj = {tempMax: tempMax, tempMin: tempMin, humidityMax: humidityMax, humidityMin: humidityMin};
+//     var file = './resources/data.json';
+//     var obj = {tempMax: tempMax, tempMin: tempMin, humidityMax: humidityMax, humidityMin: humidityMin};
 
-    jsonfile.writeFileSync(file, obj, function (err) {
-      console.error(err);
-    });
-}
+//     jsonfile.writeFileSync(file, obj, function (err) {
+//       console.error(err);
+//     });
+// }
 
 
 port = process.env.PORT || 3000;
 
 server.listen(port);
-console.log(`Server listening on http://localhost:${port}`);
