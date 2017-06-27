@@ -8,37 +8,16 @@ var humidityMin;
 
 $(document).ready(function(){
     socket = io.connect(window.location.hostname + ':' + 3000);
-    prepareDOMVariables();
-    
+    getVariables();
     addEventListeners();
-    
-    setSocketActions();
+    setActions();
 });
 
-function prepareDOMVariables(){
+function getVariables(){
     temperatureMax = document.getElementById('temperatureMax');
     temperatureMin = document.getElementById('temperatureMin');
     humidityMax = document.getElementById('humidityMax');
     humidityMin = document.getElementById('humidityMin');
-}
-
-function emitChecked(emitValue, e){
-    socket.emit(emitValue, {
-        value: e.target.checked
-    });
-}
-
-function emitValue(device, e) {
-    socket.emit('update', {
-        device: device,
-        value: e.target.value
-    });
-}
-
-function emitButtonValue(emitValue, e){
-    socket.emit(emitValue, {
-        value: e.target.value
-    });
 }
 
 function addEventListeners(){
@@ -48,7 +27,7 @@ function addEventListeners(){
     humidityMin.addEventListener('change', emitValue.bind(null, 'humidityMin'));
 }
 
-function setSocketActions(){
+function setActions(){
     socket.on('connect', function(data) {
         socket.emit('join', 'Client is connected!');
     });
@@ -60,6 +39,12 @@ function setSocketActions(){
     socket.on('Hum', function(data){
         document.getElementById("hum").innerHTML = data;
     });
-
    
+}
+
+function emitValue(device, e) {
+    socket.emit('changeMade', {
+        device: device,
+        value: e.target.value
+    });
 }

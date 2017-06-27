@@ -18,17 +18,7 @@ var lcd = new jf.LCD({
 
 var temperature = new jf.Thermometer({
   pin: "A0",
-  freq: 100,
-  // toCelsius: function(raw) {
-  //   var volt = (raw * 3.3)/1024;
-  //   return Math.abs(Math.floor(((volt - 0.5) * 100) - 130));
-  // }
-  toCelsius: function(raw) {
-    var temp = Math.log(10000.0 * (1024.0 / raw - 1));
-    temp = 1/(0.001129148 + (0.000234125 + (0.0000000876741 * temp * temp)) * temp);
-    temp -= 273.15;
-    return Math.floor(temp); 
-  }
+  freq: 100
 });
 
 var humiditySensor = new jf.Sensor("A0");
@@ -47,13 +37,6 @@ app.get('/', function(req, res, next) {
 });
 
 board.on('ready', function() {
-  console.log('Setting up board');
-
-    this.repl.inject({
-    on: function(){
-      ledHot.on();
-    }
-    });
 
   temperature.on("data", function() {
     displayInformation();
@@ -66,7 +49,7 @@ board.on('ready', function() {
     controlHumidity();
   });
 
-  setClientActions();
+  manageClient();
 
 });
 
@@ -89,14 +72,11 @@ function controlHumidity(){
   }
 }
 
-function setClientActions(){
+function manageClient(){
 
   io.on('connection', function(client) {
     socketClient = client;
-    client.on('join', function(handshake) {
-      // console.log(handshake);
-    });
-    client.on('update', function(data) {
+    client.on('changeMade', function(data) {
         if(data.device === 'temperatureMax'){
           tempMax = data.value;
         }else if (data.device === 'temperatureMin') {
@@ -109,8 +89,6 @@ function setClientActions(){
         controlHumidity();
         controlTemperature();
         displayInformation();
-        client.emit('update', data);
-        client.broadcast.emit('update', data);
     });
 
     client.on('saveValues', function(){
@@ -123,10 +101,6 @@ function setClientActions(){
   });
 }
 
-  // console.log('Socket setup correctly');
-  // console.log('Board setup correctly');
-
-
 function displayInformation() {
   lcd.home();
   lcd.print('Temp: ' + temperature.celsius + ' ' + tempMin + ' ' + tempMax);
@@ -137,29 +111,6 @@ function displayInformation() {
     socketClient.emit('Hum', humidity);
   };
 }
-
-// function setSavedParameters(){
-//     var file = './resources/data.json';
-//     var jsonParameters = jsonfile.readFileSync(file);
-
-//     tempMax = jsonParameters.tempMax;
-//     tempMin = jsonParameters.tempMin;
-//     humidityMax = jsonParameters.humidityMax;
-//     humidityMin = jsonParameters.humidityMin;
-    
-//     socketClient.emit('setSavedParameters', jsonParameters);
-// }
-
-// function saveParameteres(){
-
-//     var file = './resources/data.json';
-//     var obj = {tempMax: tempMax, tempMin: tempMin, humidityMax: humidityMax, humidityMin: humidityMin};
-
-//     jsonfile.writeFileSync(file, obj, function (err) {
-//       console.error(err);
-//     });
-// }
-
 
 port = process.env.PORT || 3000;
 
